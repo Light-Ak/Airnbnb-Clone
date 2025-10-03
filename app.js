@@ -12,6 +12,8 @@ app.listen(8080, () => {
     console.log("Server is running on port 8080");
 });
 
+app.engine('ejs', ejsMate);
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
