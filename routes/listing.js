@@ -32,6 +32,10 @@ router.get("/:id", wrapAsync(async (req, res) => {
     const { id } = req.params;
     // populate reviews so you get actual data, not just ObjectIds
     const listing = await Listing.findById(id).populate("reviews");
+    if (!listing) {
+        req.flash('error', 'Cannot find that listing!');
+        return res.redirect("/listings");
+    }
     res.render("listings/show.ejs", { listing });
 }));
 
@@ -40,6 +44,7 @@ router.get("/:id", wrapAsync(async (req, res) => {
 router.post("/", validateListing, wrapAsync(async (req, res) => {
     const newListing = new Listing(req.body.listing); // ✅ expects nested listing
     await newListing.save();
+    req.flash('success', 'Successfully made a new listing!');
     res.redirect("/listings");
 }));
 
@@ -48,6 +53,10 @@ router.post("/", validateListing, wrapAsync(async (req, res) => {
 router.get("/:id/edit", wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
+    if (!listing) {
+        req.flash('error', 'Cannot find that listing!');
+        return res.redirect("/listings");
+    }
     res.render("listings/edit", { listing });
 }));
 
@@ -62,6 +71,8 @@ router.put("/:id", validateListing, wrapAsync(async (req, res) => {
         { runValidators: true, new: true } // return updated document
     );
 
+    req.flash('success', 'Successfully updated listing!');
+
     if (!updatedListing) {
         throw new ExpressError("Listing not found", 404);
     }
@@ -74,6 +85,7 @@ router.put("/:id", validateListing, wrapAsync(async (req, res) => {
 router.delete("/:id", wrapAsync(async (req, res) => {
     const { id } = req.params;
     await Listing.findByIdAndDelete(id);
+    req.flash('success', 'Successfully deleted listing');
     res.redirect("/listings");
 }));
 
