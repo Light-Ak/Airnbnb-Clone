@@ -26,7 +26,7 @@ router.get('/signup', (req, res) => {
 // Handle user registration
 router.post('/signup', validateUser, wrapAsync(async (req, res) => {
     try {
-        const { username, email, password } = req.body; // ✅ expects nested user
+        const { username, email, password } = req.body;  
         const newUser = new User({ username, email });
         const registeredUser = await User.register(newUser, password);
         req.login(registeredUser, err => {
@@ -54,6 +54,15 @@ router.post('/login', passport.authenticate('local', {
     const redirectUrl = req.session.returnTo || '/listings';
     delete req.session.returnTo;
     res.redirect(redirectUrl);
+});
+
+// Handle user logout
+router.get('/logout', (req, res) => {
+    req.logout(err => {
+        if (err) { return next(err); }
+        req.flash('success', "Logged Out!");
+        res.redirect('/listings');
+    });
 });
 
 module.exports = router;

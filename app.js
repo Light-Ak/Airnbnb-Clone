@@ -14,6 +14,7 @@ const listingRoutes = require('./routes/listing');
 const reviewRoutes = require('./routes/review');
 const userRoutes = require('./routes/user');
 
+
 const app = express();
 
 // Session configuration
@@ -44,6 +45,11 @@ passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    next();
+});
 
 // Flash middleware to set local variables
 app.use((req, res, next) => {
