@@ -5,13 +5,14 @@ const path = require('path');
 const ejs = require('ejs');
 const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError');
-const listingRoutes = require('./routes/listing');
-const reviewRoutes = require('./routes/review');
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
+const listingRoutes = require('./routes/listing');
+const reviewRoutes = require('./routes/review');
+const userRoutes = require('./routes/user');
 
 const app = express();
 
@@ -40,6 +41,9 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // Flash middleware to set local variables
 app.use((req, res, next) => {
@@ -76,6 +80,9 @@ app.use('/listings', listingRoutes);
 
 // REVIEW ROUTES
 app.use('/listings/:id/reviews', reviewRoutes);
+
+// USER ROUTES
+app.use('/', userRoutes);
 
 // 404 handler
 app.use((req, res, next) => {
