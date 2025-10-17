@@ -1,7 +1,18 @@
 const User = require('../models/user');
 const Listing = require('../models/listing');
-const ExpressError = require('../utils/ExpressError');
+const Review = require('../models/review');
 
+module.exports.showProfile = async (req, res) => {
+    const userId = req.user._id;
+
+    const user = await User.findById(userId); // get user info
+
+    const listings = await Listing.find({ owner: userId }); // all listings by this user
+
+    const reviews = await Review.find({ author: userId }).populate('listing'); // reviews by this user
+
+    res.render('users/profile', { user, listings, reviews });
+};
 
 // Render registration form
 module.exports.registerForm = (req, res) => {

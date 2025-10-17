@@ -8,12 +8,15 @@ const listingSchema = joi.object({
         price: joi.number().required().min(0),
         location: joi.string().required(),
         country: joi.string().required(),
+        category: joi.string()
+            .valid('Mountains', 'Seaside', 'Camping', 'Countryside', 'City Life', 'Beach'),
         image: joi.object({
             url: joi.string().uri().required(),
             filename: joi.string().required()
         }).required()
     }).required()
 });
+
 
 module.exports.listingSchema = listingSchema;
 

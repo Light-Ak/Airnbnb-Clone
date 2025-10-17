@@ -20,7 +20,12 @@ const listingSchema = new Schema({
     location: String,
     country : String,
     reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
-    owner: { type: Schema.Types.ObjectId, ref: 'User' }
+    owner: { type: Schema.Types.ObjectId, ref: 'User' },
+    category: {
+        type: String,
+        enum: ['Mountains', 'Seaside', 'Camping', 'Countryside', 'City Life', 'Beach'],
+        default: 'City Life'
+    }
 });
 
 listingSchema.post('findOneAndDelete', async function(listing) {

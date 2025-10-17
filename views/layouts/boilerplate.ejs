@@ -41,5 +41,31 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/script.js"></script>
     
+    <script>
+      const filters = document.querySelectorAll('.filter');
+      const listings = document.querySelectorAll('.listings-container .col');
+
+      filters.forEach(filter => {
+        filter.addEventListener('click', () => {
+          // Highlight active filter
+          filters.forEach(f => f.classList.remove('active'));
+          filter.classList.add('active');
+
+          const category = filter.dataset.category;
+
+          listings.forEach(listing => {
+            if (!category || listing.dataset.category === category) {
+              listing.style.display = 'block';
+            } else {
+              listing.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // Show all listings initially
+      listings.forEach(listing => listing.style.display = 'block');
+    </script>
+
 </body>
 </html>

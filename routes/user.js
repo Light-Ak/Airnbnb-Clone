@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const wrapAsync = require('../utils/wrapAsync');
 const ExpressError = require('../utils/ExpressError');
+const {isLoggedIn} = require('../middleware');
 
 const { userSchema } = require('../schema');
 const passport = require('passport');
@@ -18,6 +19,8 @@ const validateUser = (req, res, next) => {
         next();
     }
 };
+
+router.get('/profile', isLoggedIn, wrapAsync(userController.showProfile));
 
 // Handle user registration
 router.route('/signup')

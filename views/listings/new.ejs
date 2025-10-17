@@ -26,10 +26,25 @@
           <div class="invalid-feedback">Please enter a short description.</div>
         </div>
 
-        <div class="mb-4">
-          <label for="image" class="form-label">Image URL</label>
-          <input type="file" id="image" name="listing[image]" class="form-control" required>
+        <div class="mb-3">
+          <label for="category" class="form-label">Category</label>
+          <select id="category" name="listing[category]" class="form-select">
+            <option value="" selected disabled>Select a category</option>
+            <option value="Mountains">Mountains</option>
+            <option value="Seaside">Seaside</option>
+            <option value="Camping">Camping</option>
+            <option value="CountrySide">CountrySide</option>
+            <option value="CityLife">CityLife</option>
+            <option value="Beach">Beach</option>
+          </select>
+          <div class="invalid-feedback">Please select a category.</div>
         </div>
+
+<div class="mb-4">
+  <label for="image" class="form-label">Image URL</label>
+  <input type="file" id="image" name="listing[image]" class="form-control" required>
+</div>
+
 
         <hr class="my-4">
 

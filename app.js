@@ -36,9 +36,9 @@ const sessionOptions = {
 };
 
 // Basic route
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
-});
+// app.get('/', (req, res) => {
+//     res.send('Hello, World!');
+// });
 
 // Middleware setup - Session and Flash
 app.use(session(sessionOptions));
