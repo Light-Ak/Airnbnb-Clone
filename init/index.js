@@ -14,14 +14,42 @@ main().then(() => {
 
 const initDB = async () => {
     await Listing.deleteMany({});
-    // Map image field to just the URL string
-    const listings = initdata.data.map(listing => ({
-        ...listing,
-        image: listing.image.url
-    }));
+
+    const listings = initdata.data.map(listing => {
+        let imageObj;
+
+        if (typeof listing.image === 'string') {
+            // If image is a string URL
+            imageObj = {
+            url: listing.image,
+            filename: listing.image.split('/').pop()
+            };
+        } else if (typeof listing.image === 'object' && listing.image !== null) {
+            // If image is already an object with url & filename
+            imageObj = {
+            url: listing.image.url,
+            filename: listing.image.filename
+            };
+        } else {
+            // Default/fallback in case no image provided
+            imageObj = {
+            url: '',
+            filename: ''
+            };
+        }
+
+        return {
+            ...listing,
+            image: imageObj,
+            owner: "68f02c050e827eba43309489"
+        };
+        });
+
+
     await Listing.insertMany(listings);
     console.log("Database initialized with sample data");
     mongoose.connection.close();
 };
+
 
 initDB();

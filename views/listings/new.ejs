@@ -9,7 +9,7 @@
       <p class="text-muted mb-4">Share details about your space — title, description, location, and price.</p>
 
       <!-- Listing Form -->
-      <form action="/listings" method="POST" class="needs-validation" novalidate>
+      <form action="/listings" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
 
         <!-- Section: Basic Info -->
         <h5 class="fw-semibold mt-4 mb-3">Basic Information</h5>
@@ -28,7 +28,7 @@
 
         <div class="mb-4">
           <label for="image" class="form-label">Image URL</label>
-          <input type="text" id="image" name="listing[image]" class="form-control" placeholder="https://example.com/your-image.jpg">
+          <input type="file" id="image" name="listing[image]" class="form-control" required>
         </div>
 
         <hr class="my-4">

@@ -1,3 +1,8 @@
+if(process.env.NODE_ENV !== "production"){
+    require('dotenv').config();
+}
+
+
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
@@ -13,7 +18,8 @@ const User = require('./models/user');
 const listingRoutes = require('./routes/listing');
 const reviewRoutes = require('./routes/review');
 const userRoutes = require('./routes/user');
-
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 const app = express();
 
